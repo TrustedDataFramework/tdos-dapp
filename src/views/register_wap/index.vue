@@ -209,6 +209,7 @@ export default{
    },
     mounted(){
         let that = this;
+        
         if (that.$route.query.pageIndex == 2){
             that.clearData();
             that.pageIndex = 2;
