@@ -24,13 +24,13 @@
                 <div class="din-box box-flex flex-middle">
                     <div class="lab">性别</div>
                     <div class=" flex1 box-flex flex-middle">
-                        <div class="d-rad box-flex flex-middle">
+                        <div class="d-rad box-flex flex-middle" @click="gender=1">
                             <span class="radio " :class="{'radio_h':gender==1}"></span>
                             <label>男</label>
                         </div>
                         
-                        <div class="d-rad box-flex flex-middle">
-                        <span class="radio"></span>
+                        <div class="d-rad box-flex flex-middle" @click="gender=2">
+                        <span class="radio" :class="{'radio_h':gender==2}"></span>
                         <label>女</label>
                         </div>
                     </div>
@@ -81,6 +81,7 @@
 import {utils} from '@/assets/js/pattern'
 import { saveRegister, getRegister, getRegisterId, getRegisters, hasPhone} from "@/api/dapps.js";
 import { getTransaction, sendTransaction } from '@/api/dapps'
+import {showLoading, hideLoading} from '@/assets/js/loading'
 export default{
 
 
@@ -99,6 +100,8 @@ export default{
             blockHash:'',
             txHash:'',
             searchText:'',
+            waitingHash:'',
+            isRegister:false,
        }
    },
    methods:{
@@ -115,7 +118,9 @@ export default{
             if (utils.isNullOrEmpty(that.phone)) {
               return that.$toast('请输入手机号', 3000)
             }
-
+            if(!utils.isMobile(that.phone)){
+              return that.$toast('手机号格式不正确', 3000)
+            }
             if (utils.isNullOrEmpty(that.companyName)) {
               return that.$toast('请输入单位名称', 3000)
             }
@@ -131,7 +136,9 @@ export default{
             }
             let tx = await saveRegister(payload)
             await sendTransaction(tx);
-           that.$router.push({path:'/register_wap/success',query: {hash: tx.getHash()}}).catch(err => { console.log(err) })
+            that.waitingHash = tx.getHash();
+            that.timer_tx();
+           
        },
        linkList(){
            let that = this;
@@ -163,7 +170,41 @@ export default{
             that.blockHash='';
             that.txHash='';
             that.searchText='';
-       }
+       },
+       async timer_tx () {
+        let that = this
+        if (that.waitingHash != '') {
+          showLoading('事务广播成功，事务哈希为：\n' + that.waitingHash+","+'\n' + '请等待上链...')
+           let hash = that.waitingHash.trim()
+          
+          this.timer1 = setInterval(function () {
+           
+            getTransaction(hash).then(tx => {
+              
+              if (tx.confirms != -1) {
+                hideLoading()
+                
+                that.waitingHash = '';
+                that.isRegister=true
+                if(that.isRegister){
+                 that.delayTimer = setTimeout(function(){
+                  that.$router.push({path:'/register_wap/success',query: {hash: tx.getHash()}}).catch(err => { console.log(err) })
+                },500)
+
+                window.clearInterval(that.timer1)
+
+            
+                }
+               
+
+              }
+            })
+
+          }, 1000)
+
+          
+        }
+      }
    }
 }
 </script>

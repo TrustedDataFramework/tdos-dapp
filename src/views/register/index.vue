@@ -67,7 +67,7 @@
                      <p class="p-hash"><span>{{hash}}</span><a class="copy pointer" v-clipboard:copy="hash" v-clipboard:success="onCopy"
                    v-clipboard:error="onError"></a></p>
                      <p class="p-mess">
-                         （您可复制上方哈希值并点击右上角按钮至“TDS浏览器”查询。）
+                         （您可复制上方哈希值并点击右上角按钮至“TDOS浏览器”查询。）
 
                      </p>
                  </div>

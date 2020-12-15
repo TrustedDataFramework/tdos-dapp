@@ -22,7 +22,7 @@
             </div>
             <p class="notice">（您可复制此哈希至浏览器查询，或在首页查询。）</p>
             <div class="box-flex flex-middle flex-center btnbox">
-                 <span class="pointer btn-register">确认</span>
+                 <span class="pointer btn-register" @click="onConfirm">确认</span>
             </div>
         </div>
     </div>
@@ -56,6 +56,15 @@ export default{
         let that = this
         return that.$toast('复制失败，请稍后重试', 2000)
       },
+      onConfirm(){
+        let that = this;
+        if (window.history.length <= 1) {
+                this.$router.push({ path: "/register_wap" });
+                return false;
+            } else {
+                this.$router.go(-1);
+            }
+      }
    },
    mounted(){
        let that = this;

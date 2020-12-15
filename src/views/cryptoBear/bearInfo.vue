@@ -170,7 +170,7 @@
         let has = await hasBear(pk)
         if (!has) {
           that.$toast('您还没有购买加密熊', 3000)
-          return that.$router.push({path: '/cryptoBear/index.vue'})
+          return that.$router.push({path: '/cryptoBear'})
         }
      
         let Level = await buyLevel(pk)
