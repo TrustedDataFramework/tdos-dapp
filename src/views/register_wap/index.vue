@@ -204,8 +204,17 @@ export default{
 
           
         }
-      }
-   }
+      },
+      
+   },
+    mounted(){
+        let that = this;
+        if (that.$route.query.pageIndex !=''){
+            that.clearData();
+            that.pageIndex = 2;
+        }
+      
+    },
 }
 </script>
 

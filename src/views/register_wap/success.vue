@@ -6,7 +6,7 @@
              -->
              <span class="close back" @click="back"></span>
             <div class="pageTitle line-ellipsis">登记成功</div>
-            <span class="list-icon"></span>
+            <span class="list-icon" @click="linkList"></span>
         </div>
       
         <div class="frombox succ_box">
@@ -58,13 +58,12 @@ export default{
       },
       onConfirm(){
         let that = this;
-        if (window.history.length <= 1) {
-                this.$router.push({ path: "/register_wap" });
-                return false;
-            } else {
-                this.$router.go(-1);
-            }
-      }
+        that.$router.push({ path: "/register_wap",query:{pageIndex: 2}});
+      },
+      linkList(){
+           let that = this;
+           that.$router.push({path:'/register_wap/userList'}).catch(err => { console.log(err) })
+       },
    },
    mounted(){
        let that = this;
