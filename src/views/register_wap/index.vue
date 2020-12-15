@@ -38,13 +38,13 @@
                 <div class="din-box box-flex flex-middle">
                     <div class="lab">手机号码</div>
                     <div class="labin flex1">
-                        <input maxlength='11' placeholder="请输入手机号" v-model="phone"/>
+                        <input maxlength='11' placeholder="请输入手机号" v-model="phone" v-limitNum/>
                     </div>
                 </div>
                 <div class="din-box box-flex flex-middle">
                     <div class="lab">公司名称</div>
                     <div class="labin flex1">
-                        <input  maxlength='11' placeholder="请输入公司名称" v-model="companyName"/>
+                        <input  maxlength='11' placeholder="请输入公司名称" v-model="companyName" v-removeSymbol  v-remembered/>
                     </div>
                 </div>
                 <div class="box-flex flex-middle flex-center btnbox">
@@ -120,9 +120,6 @@ export default{
             }
             if(!utils.isMobile(that.phone)){
               return that.$toast('手机号格式不正确', 3000)
-            }
-            if (utils.isNullOrEmpty(that.companyName)) {
-              return that.$toast('请输入单位名称', 3000)
             }
             let bool = await hasPhone(that.phone);
             if (bool){
