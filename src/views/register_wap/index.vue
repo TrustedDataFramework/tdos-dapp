@@ -103,6 +103,7 @@ export default{
    },
    methods:{
        async linSuccess(){
+           /*
            let that = this;
             if (utils.isNullOrEmpty(that.name)) {
               return that.$toast('请输入姓名', 3000)
@@ -132,6 +133,7 @@ export default{
             let tx = await saveRegister(payload)
             await sendTransaction(tx);
            that.$router.push({path:'/register_wap/success',query: {hash: tx.getHash()}}).catch(err => { console.log(err) })
+           */
        },
        linkList(){
            let that = this;
