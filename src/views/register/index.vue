@@ -20,7 +20,7 @@
                     </h4>
                     <div class="coin-50 coin-100">
                         <div class="lab">姓名：</div>
-                        <input class="border-box" axlength="15" v-model="name" v-removeSymbol  v-remembered/>
+                        <input class="border-box" maxlength="10" v-model="name" v-removeSymbol  v-remembered/>
                     </div>
 
                      <div class="coin-50 coin-100 register-select">
