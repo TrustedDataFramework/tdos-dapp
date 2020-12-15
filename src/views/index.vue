@@ -73,7 +73,7 @@ export default {
         return{
             isSearch:false,//搜索是否展开
             iconList:[
-               {title:'登记',icon:require('../assets/img/logo_bookCopyright.png'),link:'/register'},
+               {title:'登记',icon:require('../assets/img/logo_register.png'),link:'/register'},
                {title:'病历共享',icon:require('../assets/img/logo_medicalTreatment.png'),link:'/medicalTreatment'},
                {title:'物流',icon:require('../assets/img/logo_logistics.png'),link:'/logistics'},
                {title:'金融',icon:require('../assets/img/logo_finance.png'),link:'/finance'},
