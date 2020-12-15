@@ -132,21 +132,21 @@
                             <el-table-column
                                 prop="name"
                                 label="姓名"  align="center"
-                                width="180">
+                                width="180" v-removeSymbol  v-remembered>
                             </el-table-column>
                             <el-table-column
                                 prop="gender"  align="center"
-                                label="性别">
+                                label="性别"> 
                             </el-table-column>
                             
                             <el-table-column
                                 prop="phone"  align="center"
-                                label="电话">
+                                label="电话" v-limitNum>
                             </el-table-column>
 
                             <el-table-column
                                 prop="companyName"  align="center"
-                                label="公司名称">
+                                label="公司名称" v-removeSymbol  v-remembered>
                             </el-table-column>
 
                             </el-table>
@@ -283,9 +283,6 @@ export default {
             }
             if (utils.isNullOrEmpty(that.phone)) {
               return that.$toast('请输入手机号', 3000)
-            }
-            if (utils.isNullOrEmpty(that.companyName)) {
-              return that.$toast('请输入单位名称', 3000)
             }
             if(!utils.isMobile(that.phone)){
               return that.$toast('手机号格式不正确', 3000)
