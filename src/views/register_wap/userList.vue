@@ -11,6 +11,10 @@
       
         <div class="userList">
               <ul class="infinite-list user-list" v-infinite-scroll="load" style="overflow:auto">
+                <li class="search-In">
+                    <input placeholder="请输入电话号码"  v-model="phone" maxlength='11' v-limitNum/>
+                    <a class="search" @click="search"></a>
+                </li>
                 <li v-for="(item,index) in userList" :key="index">
                    <div class="box-flex">
                        <div class="user_name line-ellipsis"><span>姓名：{{item.name}}</span></div>
@@ -32,6 +36,7 @@
 <script >
 import { saveRegister, getRegister, getRegisterId, getRegisters, hasPhone} from "@/api/dapps.js";
 import { getTransaction, sendTransaction } from '@/api/dapps'
+ import {utils} from '@/assets/js/pattern'
 export default{
 
 
@@ -40,6 +45,8 @@ export default{
         gender:1,
         loading: false,
         noMore:false,
+
+        phone:'',//电话号码
         userList:[
             // {name:'李三思',sex:'男',phone:'18018609087',address:'江苏省常州市新北区绿都万和城'},
             // {name:'李三思',sex:'男',phone:'18018609087',address:'江苏省常州市新北区绿都万和城'},
@@ -58,11 +65,27 @@ export default{
             // {name:'李三思',sex:'男',phone:'18018609087',address:'江苏省常州市新北区绿都万和城'},
             // {name:'李三思',sex:'男',phone:'18018609087',address:'江苏省常州市新北区绿都万和城'},
             // {name:'李三思',sex:'男',phone:'18018609087',address:'江苏省常州市新北区绿都万和城'},
-        ]
+        ],
+        allList:[],
 
        }
    },
    methods:{
+
+       //搜素
+       search(){
+          let that = this;  
+          if (utils.isNullOrEmpty(that.phone)) {
+            return that.$toast('请输入电话号码', 3000)
+          }
+          let tempList=[];
+          that.allList.forEach((item)=>{
+              if (item.phone.indexOf(that.phone) != -1){
+                  tempList.push(item)
+              }
+          })
+          that.userList = tempList;
+       },
        back(){
         let that = this;
         if (window.history.length <= 1) {
@@ -81,7 +104,7 @@ export default{
         }, 2000)
         let temp =this.userList
         //this.userList.concat(temp)
-        console.log(1)
+      
       },
       async showList(){
          let that = this;
@@ -98,6 +121,7 @@ export default{
         registers.forEach((item)=>{
             that.userList.push({name:item.username, sex:item.sex, phone:item.phone, address:item.designation})
         });
+        that.allList = that.userList;
        },
    },
    mounted(){
