@@ -62,7 +62,7 @@
                      <span class="search_btn" @click="search"></span>
                 </div>
             </div>
-            <p class="mess">（您可输入事务哈希查询</br>或者访问:<a>浏览器你去地址</a>进行查询。）</p>
+            <p class="mess">（您可输入事务哈希查询</br>或者访问:<a @click="goBrowser">http://120.76.101.153:8181 </a>进行查询。）</p>
             <div class="search-result">
                 <p>区块高度：{{height}}</p>
                 <p>区块哈希：{{blockHash}}</p>
@@ -202,7 +202,9 @@ export default{
           
         }
       },
-      
+      goBrowser(){
+       window.open('http://120.76.101.153:8181',"_top");
+     }
    },
     mounted(){
         let that = this;
