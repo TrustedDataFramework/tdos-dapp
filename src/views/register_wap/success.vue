@@ -6,7 +6,7 @@
              -->
              <span class="close back" @click="back"></span>
             <div class="pageTitle line-ellipsis">登记成功</div>
-            <span class="list-icon"></span>
+            <span class="list-icon" @click="linkList"></span>
         </div>
       
         <div class="frombox succ_box">
@@ -22,7 +22,7 @@
             </div>
             <p class="notice">（您可复制此哈希至浏览器查询，或在首页查询。）</p>
             <div class="box-flex flex-middle flex-center btnbox">
-                 <span class="pointer btn-register">确认</span>
+                 <span class="pointer btn-register" @click="onConfirm">确认</span>
             </div>
         </div>
     </div>
@@ -56,6 +56,14 @@ export default{
         let that = this
         return that.$toast('复制失败，请稍后重试', 2000)
       },
+      onConfirm(){
+        let that = this;
+        that.$router.push({ path: "/register_wap",query:{pageIndex: 2}});
+      },
+      linkList(){
+           let that = this;
+           that.$router.push({path:'/register_wap/userList'}).catch(err => { console.log(err) })
+       },
    },
    mounted(){
        let that = this;
