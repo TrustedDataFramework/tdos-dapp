@@ -341,6 +341,7 @@ export default {
         registers.sort(function(a,b){
                 return a.username.localeCompare(b.username);
             });
+            that.totalData = []
         registers.forEach((item)=>{
             that.totalData.push({name:item.username, gender:item.sex, phone:item.phone, companyName:item.designation})
             that.total = that.totalData.length;
