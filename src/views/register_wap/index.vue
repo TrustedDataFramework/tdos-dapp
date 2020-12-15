@@ -1,7 +1,7 @@
 <template>
     <div class="wap-wrap">
         <div class="wrapheader">
-             <span class="close"></span>
+            <!--  <span class="close"></span>-->
             <div class="pageTitle line-ellipsis">{{pageIndex==1?'请先登记个人信息':'查询消息'}}</div>
             <span class="list-icon" @click="linkList"></span>
         </div>
@@ -209,7 +209,7 @@ export default{
    },
     mounted(){
         let that = this;
-        if (that.$route.query.pageIndex !=''){
+        if (that.$route.query.pageIndex == 2){
             that.clearData();
             that.pageIndex = 2;
         }
