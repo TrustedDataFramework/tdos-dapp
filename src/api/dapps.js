@@ -992,6 +992,7 @@ export async function getChange (hash) {
 
  // 保存注册
 export async function saveRegister (payload) {
+  console.log(payload)
   const c = await getRegisterContract()
   if (ENV === 'prod') {
     let builder = new TransactionBuilder(
@@ -1021,7 +1022,8 @@ function fromEncoded_Register(buf) {
   const rd = new rlp.RLPListReader(rlp.RLPList.fromEncoded(buf))
   u.username = rd.string()
   u.sex = rd.string()
-  u.phone = rd.number()
+  u.phone = rd.string()
+  console.log('-----------------------get-'+u.phone)
   u.designation = rd.string()
   u.hash = bin2hex(rd.bytes())
   return u
@@ -1063,7 +1065,7 @@ function fromEncodedRegisters(buf) {
   const u = {}
   u.username = li.string()
   u.sex = li.string()
-  u.phone = li.number()
+  u.phone = li.string()
   u.designation = li.string()
   u.hash = bin2hex(li.bytes())
   return u;

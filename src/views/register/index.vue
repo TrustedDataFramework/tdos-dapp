@@ -361,7 +361,7 @@ export default {
             let that = this;
             let user = await getRegister(that.searchText);
             if (user == '') {
-              return this.$toast('暂无内容', 3000)
+              return this.$toast('暂无内容', 3000) 
             }
             getTransaction(that.searchText).then(t =>{
                that.txHash = that.searchText;
