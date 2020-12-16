@@ -18,7 +18,7 @@
                 <div class="din-box box-flex flex-middle">
                     <div class="lab">姓名：</div>
                     <div class="labin flex1">
-                        <input placeholder="请输入姓名" v-model="name" v-removeSymbol  v-remembered/>
+                        <input placeholder="请输入姓名"  maxlength='10' v-model="name" v-removeSymbol  v-remembered/>
                     </div>
                 </div>
                 <div class="din-box box-flex flex-middle">
