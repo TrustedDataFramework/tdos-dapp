@@ -63,7 +63,7 @@
                 </div>
             </div>
             <p class="mess">（您可输入事务哈希查询</br>或者访问:<a @click="goBrowser">http://120.76.101.153:8181 </a>进行查询。）</p>
-            <div class="search-result">
+            <div class="search-result" v-if="height!=''">
                 <p>区块高度：{{height}}</p>
                 <p>区块哈希：{{blockHash}}</p>
                 <p>事务哈希：{{txHash}}</p>
