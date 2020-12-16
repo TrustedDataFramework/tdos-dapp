@@ -2,7 +2,7 @@
     <div class="wap-wrap">
         <div class="wrapheader">
             <!--  <span class="close"></span>-->
-            <div class="pageTitle line-ellipsis">{{pageIndex==1?'请先登记个人信息':'查询消息'}}</div>
+            <div class="pageTitle line-ellipsis">{{showSuccess?'登记成功':pageIndex==1?'请先登记个人信息':'查询消息'}}</div>
             <span class="list-icon" @click="linkList"></span>
         </div>
         <div class="nav-function ">
@@ -18,7 +18,7 @@
                 <div class="din-box box-flex flex-middle">
                     <div class="lab">姓名：</div>
                     <div class="labin flex1">
-                        <input placeholder="请输入姓名"  maxlength='10' v-model="name" v-removeSymbol  v-remembered/>
+                        <input placeholder="请输入姓名"  maxlength="10" v-model="name" v-removeSymbol  v-remembered/>
                     </div>
                 </div>
                 <div class="din-box box-flex flex-middle">
@@ -63,7 +63,7 @@
                 </div>
             </div>
             <p class="mess">（您可输入事务哈希查询</br>或者访问:<a @click="goBrowser">http://120.76.101.153:8181 </a>进行查询。）</p>
-            <div class="search-result">
+            <div class="search-result" v-if="height!=''">
                 <p>区块高度：{{height}}</p>
                 <p>区块哈希：{{blockHash}}</p>
                 <p>事务哈希：{{txHash}}</p>
@@ -74,7 +74,30 @@
                 <p>单位名称:{{searchCompany}}</p>
             </div>
         </div>
+
+        <div class="wap-wrap success-wap-wrap"  v-if="showSuccess">
+   
+        
+            <div class="frombox succ_box">
+            
+                <div class="icon">
+
+                </div>
+                <p class="mess"> 恭喜您！登记成功</p>
+                <p class="mess">以下为您此次登记的事务哈希：</p>
+                <div class="hashBox">
+                    {{affairhash}}  
+                    <span class="copy" v-clipboard:copy="affairhash" v-clipboard:success="onCopy" v-clipboard:error="onError"></span> 
+                </div>
+                <p class="notice">（您可复制此哈希至浏览器查询，或在首页查询。）</p>
+                <div class="box-flex flex-middle flex-center btnbox">
+                    <span class="pointer btn-register" @click="showSuccess=false">确认</span>
+                </div>
+            </div>
+        </div>
     </div>
+
+
 </template>
 
 <script >
@@ -102,9 +125,20 @@ export default{
             searchText:'',
             waitingHash:'',
             isRegister:false,
+            affairhash:'',
+            showSuccess:false,//是否显示成功
        }
+       
    },
    methods:{
+               onCopy: function (e) {
+        let that = this
+        return that.$toast('复制成功', 2000)
+      },
+      onError: function (e) {
+        let that = this
+        return that.$toast('复制失败，请稍后重试', 2000)
+      },
        async linSuccess(){
            let that = this;
             if (utils.isNullOrEmpty(that.name)) {
@@ -134,6 +168,7 @@ export default{
             let tx = await saveRegister(payload)
             await sendTransaction(tx);
             that.waitingHash = tx.getHash();
+            that.affairhash = tx.getHash()
             that.timer_tx();
            
        },
@@ -168,6 +203,7 @@ export default{
             that.txHash='';
             that.searchText='';
        },
+
        async timer_tx () {
         let that = this
         if (that.waitingHash != '') {
@@ -185,7 +221,9 @@ export default{
                 that.isRegister=true
                 if(that.isRegister){
                  that.delayTimer = setTimeout(function(){
-                  that.$router.push({path:'/register_wap/success',query: {hash: tx.getHash()}}).catch(err => { console.log(err) })
+                  //that.$router.push({path:'/register_wap/success',query: {hash: tx.getHash()}}).catch(err => { console.log(err) })
+                  
+                  that.showSuccess=true
                 },500)
 
                 window.clearInterval(that.timer1)

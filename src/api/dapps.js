@@ -10,8 +10,6 @@ import {
   publicKey2Address,
   rlp,
   TransactionBuilder,
-  generatePrivateKey,
-  privateKey2PublicKey,
   TX_STATUS
 } from '@salaku/js-sdk'
 
@@ -1002,11 +1000,9 @@ export async function saveRegister (payload) {
       privatekey
     )
     const tx = builder.buildContractCall(c, 'saveRegister', payload, 0)
-    let  privateKey = generatePrivateKey();
-    tx.nonce = await syncNonce(privateKey2PublicKey(privateKey));
-    tx.from = privateKey2PublicKey(privateKey);
-    tx.sign(privateKey);
-    console.log(tx)
+    tx.nonce = await syncNonce(PUBLIC_KEY)
+    tx.from = PUBLIC_KEY
+    tx.sign(PRIVATE_KEY);
     return tx
   }
 }
@@ -1027,6 +1023,7 @@ function fromEncoded_Register(buf) {
   u.username = rd.string()
   u.sex = rd.string()
   u.phone = rd.string()
+  console.log('-----------------------get-'+u.phone)
   u.designation = rd.string()
   u.hash = bin2hex(rd.bytes())
   return u

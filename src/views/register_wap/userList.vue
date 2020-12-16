@@ -76,8 +76,7 @@ export default{
        search(){
           let that = this;  
           if (utils.isNullOrEmpty(that.phone)) {
-            that.userList = that.allList;  
-            return
+            return that.$toast('请输入电话号码', 3000)
           }
           let tempList=[];
           that.allList.forEach((item)=>{
