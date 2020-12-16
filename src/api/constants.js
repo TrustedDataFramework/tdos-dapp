@@ -56,8 +56,8 @@ export function persistVM(){
   localStorage.setItem('vm', bin2hex(vm.dump()))
 }
 
-export const rpc = new RPC('120.76.101.153', '7010')
-
+//export const rpc = new RPC('120.76.101.153', '7010')
+export const rpc = new RPC('192.168.1.89', '6011')
 export const CONTRACT_ADDRESS = '2f0119a808c74be8c5e0929e0ab94be211e6f01a' // 十个存证合约地址
 export const CONTRACT_SECRET_BEAR_ADDRESS = 'a265f76986b17386360068c809a680b556c07d0f' // 加密熊合约地址
 export const CONTRACT_CHAT_ADDRESS = 'bfe0d3202e79af304b28e917df7ca3875d243d18' // 聊天室合约地址
