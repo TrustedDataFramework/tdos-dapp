@@ -16,7 +16,9 @@ import limitNum from './assets/js/onlyNum'
 import removeSymbol from './assets/js/removeSymbol'
 import remembered from './assets/js/remembered'
 import VueClipboard from 'vue-clipboard2'
-
+// import Vconsole from 'vconsole'
+// const vConsole = new Vconsole()
+// Vue.use(vConsole)
 Vue.use(VueClipboard);
 
 Vue.directive('limitNum', limitNum);

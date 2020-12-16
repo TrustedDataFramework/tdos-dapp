@@ -91,7 +91,7 @@
                 </div>
                 <p class="notice">（您可复制此哈希至浏览器查询，或在首页查询。）</p>
                 <div class="box-flex flex-middle flex-center btnbox">
-                    <span class="pointer btn-register" @click="showSuccess=false">确认</span>
+                    <span class="pointer btn-register" @click="showSuccess=false;gender=1;name='';phone='';companyName=''">确认</span>
                 </div>
             </div>
         </div>
@@ -166,10 +166,25 @@ export default{
               designation: that.companyName,
             }
             let tx = await saveRegister(payload)
-            await sendTransaction(tx);
             that.waitingHash = tx.getHash();
             that.affairhash = tx.getHash()
             that.timer_tx();
+           let result =  await sendTransaction(tx)
+           if (result != ''){
+               hideLoading()
+                
+                that.waitingHash = '';
+                that.isRegister=true
+                if(that.isRegister){
+                 that.delayTimer = setTimeout(function(){
+                  
+                  that.showSuccess=true
+                },500)
+
+            
+                }
+           }
+           
            
        },
        linkList(){
@@ -210,32 +225,32 @@ export default{
           showLoading('事务广播成功，事务哈希为：\n' + that.waitingHash+","+'\n' + '请等待上链...')
            let hash = that.waitingHash.trim()
           
-          this.timer1 = setInterval(function () {
+        //   this.timer1 = setInterval(function () {
            
-            getTransaction(hash).then(tx => {
+        //     getTransaction(hash).then(tx => {
               
-              if (tx.confirms != -1) {
-                hideLoading()
+        //       if (tx.confirms != -1) {
+        //         hideLoading()
                 
-                that.waitingHash = '';
-                that.isRegister=true
-                if(that.isRegister){
-                 that.delayTimer = setTimeout(function(){
-                  //that.$router.push({path:'/register_wap/success',query: {hash: tx.getHash()}}).catch(err => { console.log(err) })
+        //         that.waitingHash = '';
+        //         that.isRegister=true
+        //         if(that.isRegister){
+        //          that.delayTimer = setTimeout(function(){
+        //           //that.$router.push({path:'/register_wap/success',query: {hash: tx.getHash()}}).catch(err => { console.log(err) })
                   
-                  that.showSuccess=true
-                },500)
+        //           that.showSuccess=true
+        //         },500)
 
-                window.clearInterval(that.timer1)
+        //         window.clearInterval(that.timer1)
 
             
-                }
+        //         }
                
 
-              }
-            })
+        //       }
+        //     })
 
-          }, 1000)
+        //   }, 1000)
 
           
         }
@@ -253,6 +268,11 @@ export default{
         }
       
     },
+    beforeDestroy(){
+    if(this.delayTimer){
+        clearTimeout(this.delayTimer)
+    }
+  }
 }
 </script>
 

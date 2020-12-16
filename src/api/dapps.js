@@ -10,7 +10,9 @@ import {
   publicKey2Address,
   rlp,
   TransactionBuilder,
-  TX_STATUS
+  generatePrivateKey,
+  TX_STATUS,
+  privateKey2PublicKey
 } from '@salaku/js-sdk'
 
 const privatekey = ''
@@ -32,7 +34,7 @@ export function getTransaction (hash) {
 
 // 获取事务
 export function sendTransaction (transaction) {
-  return rpc.sendTransaction(transaction)
+  return rpc.sendAndObserve(transaction,TX_STATUS.INCLUDED)
 }
 
 // 解析公益
@@ -992,17 +994,18 @@ export async function getChange (hash) {
 
  // 保存注册
 export async function saveRegister (payload) {
-  console.log(payload)
   const c = await getRegisterContract()
   if (ENV === 'prod') {
     let builder = new TransactionBuilder(
       constants.POA_VERSION,
-      privatekey
+      PRIVATE_KEY
     )
     const tx = builder.buildContractCall(c, 'saveRegister', payload, 0)
-    tx.nonce = await syncNonce(PUBLIC_KEY)
-    tx.from = PUBLIC_KEY
-    tx.sign(PRIVATE_KEY);
+    let priKey = generatePrivateKey();
+    let publickey = privateKey2PublicKey(priKey);
+    tx.nonce = await syncNonce(publickey)
+    tx.from = publickey
+    tx.sign(priKey);
     return tx
   }
 }
@@ -1023,7 +1026,6 @@ function fromEncoded_Register(buf) {
   u.username = rd.string()
   u.sex = rd.string()
   u.phone = rd.string()
-  console.log('-----------------------get-'+u.phone)
   u.designation = rd.string()
   u.hash = bin2hex(rd.bytes())
   return u
@@ -1037,6 +1039,7 @@ export async function getRegisterId () {
 
 export async function hasPhone (phone) {
   let u  = await rpc.viewContract(await getRegisterContract(), 'hasPhone', [phone])
+
   return u;
 }
 
